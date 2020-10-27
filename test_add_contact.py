@@ -6,7 +6,9 @@ from selenium.common.exceptions import NoAlertPresentException
 import unittest
 from contact import Contact
 
+
 class TestAddContact(unittest.TestCase):
+
     def setUp(self):
         self.wd = webdriver.Firefox()
         self.wd.implicitly_wait(30)
@@ -15,9 +17,12 @@ class TestAddContact(unittest.TestCase):
         wd = self.wd
         self.open_home_page(wd)
         self.login(wd, username="admin", password="secret")
-        self.create_contact(wd, Contact(firstname="dd", middlename="ddc", lastname="d", nickname="dfdfc", title="koko", company="joijoij", address="kjojoi", home="44611", mobile="2266466", work="46465131",
-                            fax="515151", email="yuiuiu@nkjn.com", email2="yuiuiu@nkjn.com", email3="yuiuiu@nkjn.com", homepage="www.fjvbfdbv.com", bday="18",
-                            bmonth="January", byear="1515", aday="15", amonth="February", ayear="1222", address2="lkmflksdm", phone2="efvfedv", notes="vefbebe"))
+        contact_data = Contact(firstname="Harry", middlename="J", lastname="Potter", nickname="magic", title="student",
+                          company="Dumbledore", address="Privet Drive 4", home="2244611", mobile="226646", work="464651",
+                          fax="515151", email="harry@magic.com", email2="ron@magic.com", email3="hermione@nkjn.com",
+                          homepage="www.hogwarts.com", bday="31", bmonth="July", byear="1980", aday="1",
+                          amonth="January", ayear="1100", address2="Diagon Alley", phone2="101010", notes="969696")
+        self.create_contact(wd, contact_data)
         self.return_to_homepage(wd)
         self.logout(wd)
 
@@ -25,9 +30,11 @@ class TestAddContact(unittest.TestCase):
         wd = self.wd
         self.open_home_page(wd)
         self.login(wd, username="admin", password="secret")
-        self.create_contact(wd, Contact(firstname="", middlename="", lastname="", nickname="", title="", company="", address="", home="", mobile="", work="",
-                            fax="", email="", email2="", email3="", homepage="", bday="",
-                            bmonth="-", byear="", aday="", amonth="-", ayear="", address2="", phone2="", notes=""))
+        contact_data = Contact(firstname="", middlename="", lastname="", nickname="", title="", company="", address="",
+                               home="", mobile="", work="", fax="", email="", email2="", email3="", homepage="",
+                               bday="", bmonth="-", byear="", aday="", amonth="-", ayear="", address2="", phone2="",
+                               notes="")
+        self.create_contact(wd, contact_data)
         self.return_to_homepage(wd)
         self.logout(wd)
 
@@ -120,8 +127,10 @@ class TestAddContact(unittest.TestCase):
         wd.get("http://localhost/addressbook/")
 
     def is_element_present(self, how, what):
-        try: self.wd.find_element(by=how, value=what)
-        except NoSuchElementException as e: return False
+        try:
+            self.wd.find_element(by=how, value=what)
+        except NoSuchElementException as e:
+            return False
         return True
     
     def is_alert_present(self):
@@ -131,6 +140,7 @@ class TestAddContact(unittest.TestCase):
 
     def tearDown(self):
         self.wd.quit()
+
 
 if __name__ == "__main__":
     unittest.main()
