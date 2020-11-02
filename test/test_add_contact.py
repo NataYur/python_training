@@ -19,8 +19,8 @@ def test_add_contact(app):
                           fax="515151", email="harry@magic.com", email2="ron@magic.com", email3="hermione@nkjn.com",
                           homepage="www.hogwarts.com", bday="31", bmonth="July", byear="1980", aday="1",
                           amonth="January", ayear="1100", address2="Diagon Alley", phone2="101010", notes="969696")
-    app.create_contact(contact_data)
-    app.return_to_homepage()
+    app.contact.create(contact_data)
+    app.contact.return_to_homepage()
     app.session.logout()
 
 
@@ -31,7 +31,7 @@ def test_add_empty_contact(app):
                                home="", mobile="", work="", fax="", email="", email2="", email3="", homepage="",
                                bday="", bmonth="-", byear="", aday="", amonth="-", ayear="", address2="", phone2="",
                                notes="")
-    app.create_contact(contact_data)
-    app.return_to_homepage()
+    app.contact.create(contact_data)
+    app.contact.return_to_homepage()
     app.session.logout()
 
