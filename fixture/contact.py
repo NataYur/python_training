@@ -38,7 +38,6 @@ class ContactHelper:
         wd.find_element_by_name("email").send_keys(contact.email)
         wd.find_element_by_name("email").click()
         wd.find_element_by_name("email").click()
-        # ERROR: Caught exception [ERROR: Unsupported command [doubleClick | name=email | ]]
         wd.find_element_by_name("email").click()
         wd.find_element_by_name("email2").click()
         wd.find_element_by_name("email2").clear()
@@ -82,3 +81,12 @@ class ContactHelper:
     def return_to_homepage(self):
         wd = self.app.wd
         wd.find_element_by_link_text("home").click()
+
+    def delete_first_contact(self):
+        wd = self.app.wd
+        # select the first contact
+        wd.find_element_by_name("selected[]").click()
+        # submit deletion
+        wd.find_element_by_xpath("//input[@value='Delete']").click()
+        wd.switch_to.alert.accept()
+
