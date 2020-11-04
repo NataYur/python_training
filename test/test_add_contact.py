@@ -19,9 +19,7 @@ def test_add_contact(app):
 def test_add_empty_contact(app):
     app.open_home_page()
     app.session.login(username="admin", password="secret")
-    contact_data = Contact(firstname="", middlename="", lastname="", nickname="", title="", company="", address="",
-                           home="", mobile="", work="", fax="", email="", email2="", email3="", homepage="", bday="",
-                           bmonth="-", byear="", aday="", amonth="-", ayear="", address2="", phone2="", notes="")
+    contact_data = Contact()
     app.contact.create(contact_data)
     app.contact.return_to_homepage()
     app.session.logout()

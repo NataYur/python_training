@@ -6,10 +6,8 @@ class ContactHelper:
     def __init__(self, app):
         self.app = app
 
-    def create(self, contact):
+    def fill_in_contact_form(self, contact):
         wd = self.app.wd
-        # init new contact creation
-        wd.find_element_by_link_text("add new").click()
         # fill in new contact form
         wd.find_element_by_name("firstname").click()
         wd.find_element_by_name("firstname").clear()
@@ -75,6 +73,13 @@ class ContactHelper:
         wd.find_element_by_name("notes").click()
         wd.find_element_by_name("notes").clear()
         wd.find_element_by_name("notes").send_keys(contact.notes)
+
+    def create(self, contact):
+        wd = self.app.wd
+        # init new contact creation
+        wd.find_element_by_link_text("add new").click()
+        # fill in connact form
+        self.fill_in_contact_form(contact)
         # submit group creation
         wd.find_element_by_xpath("(//input[@name='submit'])[2]").click()
 
@@ -89,4 +94,22 @@ class ContactHelper:
         # submit deletion
         wd.find_element_by_xpath("//input[@value='Delete']").click()
         wd.switch_to.alert.accept()
+
+    def modify_first_contact(self, contact):
+        wd = self.app.wd
+        # select the first contact
+        wd.find_element_by_name("selected[]").click()
+        # submit edit
+        wd.find_element_by_xpath("//img[@alt='Edit']").click()
+        # fill in new contact form
+        self.fill_in_contact_form(contact)
+        # submit edit
+        wd.find_element_by_name("update").click()
+
+    # def get_first_contact(self):
+    #      c = Contact("", )
+    #      wd = self.app.wd
+    #      c.firstname = wd.find_element_by_name("firstname").text
+    #
+    #     return c
 
