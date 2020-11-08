@@ -4,7 +4,6 @@ from model.contact import Contact
 
 def test_add_contact(app):
     app.open_home_page()
-    app.session.login(username="admin", password="secret")
     contact_data = Contact(firstname="Harry", middlename="J", lastname="Potter", nickname="magic", title="student",
                            company="Dumbledore", address="Privet Drive 4", home="2244611", mobile="226646",
                            work="464651", fax="515151", email="harry@magic.com", email2="ron@magic.com",
@@ -13,14 +12,11 @@ def test_add_contact(app):
                            phone2="101010", notes="969696")
     app.contact.create(contact_data)
     app.contact.return_to_homepage()
-    app.session.logout()
 
 
 def test_add_empty_contact(app):
     app.open_home_page()
-    app.session.login(username="admin", password="secret")
     contact_data = Contact()
     app.contact.create(contact_data)
     app.contact.return_to_homepage()
-    app.session.logout()
 
