@@ -2,7 +2,6 @@ from model.contact import Contact
 
 
 def test_modify_contact_firstname(app):
-    app.open_home_page()
     if app.contact.count() == 0:
         app.contact.create(Contact(firstname="to_modify"))
     contact_data = Contact(firstname="Ronald")
@@ -11,7 +10,6 @@ def test_modify_contact_firstname(app):
 
 
 def test_modify_contact_day_month(app):
-    app.open_home_page()
     if app.contact.count() == 0:
         app.contact.create(Contact(firstname="to_modify"))
     contact_data = Contact(bday="8", bmonth="January", aday="3", amonth="October")
