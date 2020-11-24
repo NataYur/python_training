@@ -6,10 +6,11 @@ from model.contact import Contact
 def test_contact_data_on_homepage(app):
     contact_data = Contact(firstname="firstname", lastname="lastname", mobilephone="+31889977", workphone="(06)44100",
                            email="email1@email.com", email3="email3@email.com", secondaryphone="45-45-45")
-    for i in range(0, 4):
+    for i in range(0, 2):
         app.contact.create(contact_data)
-    index = randrange(len(app.contact.get_contact_list()))
-    contact_data_from_homepage = app.contact.get_contact_list()[index]
+    contact_list = app.contact.get_contact_list()
+    index = randrange(len(contact_list))
+    contact_data_from_homepage = contact_list[index]
     contact_data_from_edit_page = app.contact.get_contact_info_from_edit_page(index)
     assert contact_data_from_homepage.firstname == contact_data_from_edit_page.firstname
     assert contact_data_from_homepage.lastname == contact_data_from_edit_page.lastname
