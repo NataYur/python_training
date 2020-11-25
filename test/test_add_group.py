@@ -1,6 +1,4 @@
 # -*- coding: utf-8 -*-
-from sys import maxsize
-
 import pytest
 from model.group import Group
 import random
