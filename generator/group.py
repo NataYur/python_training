@@ -12,7 +12,6 @@ except getopt.GetoptError as err:
     getopt.usage()
     sys.exit(2)
 
-
 n = 5
 f = "data/groups.json"
 
@@ -36,4 +35,4 @@ file = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", f)
 
 with open(file, "w") as out:
     jsonpickle.set_encoder_options("json", indent=2)
-    out.write((testdata))
+    out.write(jsonpickle.encode(testdata))
