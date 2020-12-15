@@ -119,6 +119,31 @@ class ContactHelper:
         self.return_to_homepage()
         wd.find_elements_by_css_selector("img[alt='Details']")[index].click()
 
+    def add_contact_to_group(self, contact_id, group_name):
+        wd = self.app.wd
+        self.return_to_homepage()
+        wd.find_element_by_name("group").send_keys("[all]")
+        self.select_contact_by_id(contact_id)
+        wd.find_element_by_name("to_group").send_keys(group_name)
+        wd.find_element_by_name("add").click()
+        self.contact_cache = None
+
+    def remove_contact_from_group(self, contact_id):
+        wd = self.app.wd
+        self.select_contact_by_id(contact_id)
+        wd.find_element_by_name("remove").click()
+        self.contact_cache = None
+
+    def filter_by_group(self, group_name):
+        wd = self.app.wd
+        self.return_to_homepage()
+        wd.find_element_by_name("group").send_keys(group_name)
+        self.contact_cache = None
+
+    def go_to_group_page(self, group_name):
+        wd = self.app.wd
+        wd.find_element_by_link_text(f'group page "{group_name}"').click()
+
     def modify_first_contact(self):
         self.modify_contact_by_index(0)
 
@@ -140,6 +165,10 @@ class ContactHelper:
         return len(wd.find_elements_by_name("selected[]"))
 
     contact_cache = None
+
+    def display_group_related_contacts(self, group_name):
+        self.filter_by_group(group_name)
+        return self.get_contact_list()
 
     def get_contact_list(self):
         if self.contact_cache is None:
