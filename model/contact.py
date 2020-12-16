@@ -1,3 +1,4 @@
+import re
 from sys import maxsize
 
 
@@ -40,11 +41,29 @@ class Contact:
         return"%s:%s:%s" % (self.id, self.firstname, self.lastname)
 
     def __eq__(self, other):
-        return (self.id is None or other.id is None or self.id == other.id) and self.firstname == other.firstname and \
-               self.lastname == other.lastname
+        return (self.id is None or other.id is None or self.id == other.id) \
+               and self.firstname == other.firstname \
+               and self.lastname == other.lastname \
+               and self.address == other.address \
+               and self.all_emails_from_homepage == other.all_emails_from_homepage \
+               and self.all_phones_from_homepage == other.all_phones_from_homepage
 
     def id_or_max(self):
         if self.id:
             return int(self.id)
         else:
             return maxsize
+
+    def merge_phones_like_on_homepage(self):
+        def clear(s):
+            return re.sub("[() -]", "", s)
+
+        self.all_phones_from_homepage = "\n".join(
+            filter(lambda x: x != "", map(lambda x: clear(x),
+                                          filter(lambda x: x is not None, [self.homephone, self.mobilephone,
+                                                                           self.workphone, self.secondaryphone]))))
+
+    def merge_emails_like_on_homepage(self):
+        self.all_emails_from_homepage = "\n".join(filter(lambda x: x != "", filter(lambda x: x is not None,
+                                                                                   [self.email, self.email2,
+                                                                                    self.email3])))

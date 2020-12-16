@@ -3,6 +3,7 @@ from pony.orm import *
 from model.contact import Contact
 from model.group import Group
 
+
 class ORMFixture:
 
     db = Database()
