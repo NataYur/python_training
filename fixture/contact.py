@@ -122,9 +122,9 @@ class ContactHelper:
     def add_contact_to_group(self, contact_id, group_name):
         wd = self.app.wd
         self.return_to_homepage()
-        wd.find_element_by_name("group").send_keys("[all]")
+        Select(wd.find_element_by_name('group')).select_by_visible_text('[all]')
         self.select_contact_by_id(contact_id)
-        wd.find_element_by_name("to_group").send_keys(group_name)
+        Select(wd.find_element_by_name("to_group")).select_by_visible_text(group_name)
         wd.find_element_by_name("add").click()
         self.contact_cache = None
 
@@ -137,7 +137,7 @@ class ContactHelper:
     def filter_by_group(self, group_name):
         wd = self.app.wd
         self.return_to_homepage()
-        wd.find_element_by_name("group").send_keys(group_name)
+        Select(wd.find_element_by_name("group")).select_by_visible_text(group_name)
         self.contact_cache = None
 
     def go_to_group_page(self, group_name):

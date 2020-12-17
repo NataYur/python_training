@@ -14,15 +14,25 @@ class ORMFixture:
         name = Optional(str, column='group_name')
         header = Optional(str, column='group_header')
         footer = Optional(str, column='group_footer')
-        contacts = Set(lambda: ORMFixture.ORMContact, table='address_in_groups', column='id', reverse='groups', lazy=True)
+        contacts = Set(lambda: ORMFixture.ORMContact, table='address_in_groups', column='id', reverse='groups',
+                       lazy=True)
 
     class ORMContact(db.Entity):
         _table_ = 'addressbook'
         id = PrimaryKey(int, column='id')
         firstname = Optional(str, column='firstname')
         lastname = Optional(str, column='lastname')
+        address = Optional(str, column='address')
+        home = Optional(str, column='home')
+        phone2 = Optional(str, column='phone2')
+        work = Optional(str, column='work')
+        mobile = Optional(str, column='mobile')
+        email = Optional(str, column='email')
+        email2 = Optional(str, column='email2')
+        email3 = Optional(str, column='email3')
         deprecated = Optional(datetime.datetime, column='deprecated')
-        groups = Set(lambda: ORMFixture.ORMGroup, table='address_in_groups', column='group_id', reverse='contacts', lazy=True)
+        groups = Set(lambda: ORMFixture.ORMGroup, table='address_in_groups', column='group_id', reverse='contacts',
+                     lazy=True)
 
     def __init__(self, host, name, user, password):
         self.db.bind('mysql', host=host, database=name, user=user, password=password, autocommit=True)
@@ -40,8 +50,16 @@ class ORMFixture:
 
     def convert_contacts_to_model(self, contacts):
         def convert(contact):
-            return Contact(id=str(contact.id), firstname=contact.firstname, lastname=contact.lastname)
-        return list(map(convert, contacts))
+            return Contact(id=str(contact.id), firstname=contact.firstname, lastname=contact.lastname,
+                           address=contact.address, workphone=contact.work, mobilephone=contact.mobile,
+                           homephone=contact.home, secondaryphone=contact.phone2,
+                           email=contact.email, email2=contact.email2, email3=contact.email3)
+        new_contacts = []
+        for c in map(convert, contacts):
+            c.merge_phones_like_on_homepage()
+            c.merge_emails_like_on_homepage()
+            new_contacts.append(c)
+        return new_contacts
 
     @db_session
     def get_contact_list(self):
